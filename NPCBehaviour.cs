@@ -44,7 +44,7 @@ public class NPCBehaviour : MonoBehaviour
     public bool isNavigatingToLadder = false;
     private string ladderTag = "Ladder";
     private float yLevelTolerance = 3f;
-    private float õLevelTolerance = 0.5f;
+    private float xLevelTolerance = 0.5f;
     private bool needALadder = false;
 
     private bool isEscaping = false;
@@ -80,7 +80,7 @@ public class NPCBehaviour : MonoBehaviour
         if (targetFlower == null)
         {
             FindFlower();
-            //PlantFlowers();
+            PlantFlowers();
 
             if (!isIdle)
             {
@@ -223,11 +223,11 @@ public class NPCBehaviour : MonoBehaviour
 
     void PlantFlowers()
     {
-        plantTimer += Time.fixedDeltaTime;
+        plantTimer += Time.deltaTime;
 
         if (plantTimer >= plantInterval)
         {
-            Vector2 spawnPosition = (Vector2)transform.position + new Vector2(facingRight ? 0.5f : -0.5f, 0f);
+            Vector2 spawnPosition = (Vector2)transform.position + new Vector2(facingRight ? 0.5f : -0.5f, -0.5f);
 
             if (FlowerSeedPrefab != null)
             {
@@ -370,7 +370,7 @@ public class NPCBehaviour : MonoBehaviour
 
     bool IsStuckVertically(Vector2 targetPosition)
     {
-        bool isCloseX = Mathf.Abs(transform.position.x - targetPosition.x) <= õLevelTolerance;
+        bool isCloseX = Mathf.Abs(transform.position.x - targetPosition.x) <= xLevelTolerance;
         bool isDifferentY = Mathf.Abs(transform.position.y - targetPosition.y) > yLevelTolerance;
         return isCloseX && isDifferentY;
     }
